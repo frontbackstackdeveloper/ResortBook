@@ -1,0 +1,15 @@
+@model Room
+@{
+    ViewData["Title"] = "Oda Ekle";
+}
+
+<section class="form-page">
+    <h1>Yeni Oda Ekle</h1>
+    <form asp-action="Create" method="post" class="form-card">
+        <partial name="_RoomForm" model="Model" />
+        <div class="form-actions">
+            <button class="btn primary" type="submit">Kaydet</button>
+            <a class="btn" asp-action="Index">Geri</a>
+        </div>
+    </form>
+</section>

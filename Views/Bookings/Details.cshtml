@@ -1,0 +1,26 @@
+@model Booking
+@{
+    ViewData["Title"] = "Rezervasyon Detayı";
+}
+
+<section class="page-header">
+    <div>
+        <h1>Rezervasyon #@Model.Id</h1>
+        <p>@Model.GuestName - @Model.Room?.RoomNumber</p>
+    </div>
+    <a class="btn" asp-action="Index">Listeye Dön</a>
+</section>
+
+<section class="grid cards">
+    <div class="card"><span>Misafir</span><strong>@Model.GuestName</strong></div>
+    <div class="card"><span>Tarih</span><strong>@Model.CheckInDate.ToShortDateString() - @Model.CheckOutDate.ToShortDateString()</strong></div>
+    <div class="card"><span>Durum</span><strong>@Model.Status</strong></div>
+    <div class="card"><span>Tutar</span><strong>@Model.TotalPrice.ToString("N0") TL</strong></div>
+</section>
+
+<section class="panel">
+    <h2>İletişim ve Notlar</h2>
+    <p><strong>E-posta:</strong> @Model.GuestEmail</p>
+    <p><strong>Telefon:</strong> @Model.GuestPhone</p>
+    <p><strong>Not:</strong> @Model.Notes</p>
+</section>

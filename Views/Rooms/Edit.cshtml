@@ -1,0 +1,16 @@
+@model Room
+@{
+    ViewData["Title"] = "Oda Düzenle";
+}
+
+<section class="form-page">
+    <h1>Oda Düzenle</h1>
+    <form asp-action="Edit" method="post" class="form-card">
+        <input type="hidden" asp-for="Id" />
+        <partial name="_RoomForm" model="Model" />
+        <div class="form-actions">
+            <button class="btn primary" type="submit">Güncelle</button>
+            <a class="btn" asp-action="Index">Geri</a>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,46 @@
+@model IEnumerable<Room>
+@{
+    ViewData["Title"] = "Odalar";
+}
+
+<section class="page-header">
+    <div>
+        <h1>Oda Yönetimi</h1>
+        <p>Resort odalarını ekle, düzenle, pasif hale getir ve rezervasyon geçmişini takip et.</p>
+    </div>
+    <a class="btn primary" asp-action="Create">Oda Ekle</a>
+</section>
+
+<section class="panel">
+    <table>
+        <thead>
+            <tr>
+                <th>Oda No</th>
+                <th>Tip</th>
+                <th>Kapasite</th>
+                <th>Fiyat</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var room in Model)
+        {
+            <tr>
+                <td>@room.RoomNumber</td>
+                <td>@room.RoomType</td>
+                <td>@room.Capacity</td>
+                <td>@room.PricePerNight.ToString("N0") TL</td>
+                <td><span class="badge @(room.IsActive ? "confirmed" : "cancelled")">@(room.IsActive ? "Aktif" : "Pasif")</span></td>
+                <td class="actions">
+                    <a asp-action="Details" asp-route-id="@room.Id">Detay</a>
+                    <a asp-action="Edit" asp-route-id="@room.Id">Düzenle</a>
+                    <form asp-action="Delete" asp-route-id="@room.Id" method="post" onsubmit="return confirm('Oda silinsin/pasif yapılsın mı?')">
+                        <button type="submit" class="link danger">Sil</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>

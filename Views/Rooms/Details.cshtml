@@ -1,0 +1,36 @@
+@model Room
+@{
+    ViewData["Title"] = "Oda Detayı";
+}
+
+<section class="page-header">
+    <div>
+        <h1>Oda @Model.RoomNumber</h1>
+        <p>@Model.RoomType - @Model.Description</p>
+    </div>
+    <a class="btn" asp-action="Index">Listeye Dön</a>
+</section>
+
+<section class="grid cards">
+    <div class="card"><span>Kapasite</span><strong>@Model.Capacity</strong></div>
+    <div class="card"><span>Gecelik Fiyat</span><strong>@Model.PricePerNight.ToString("N0") TL</strong></div>
+    <div class="card"><span>Durum</span><strong>@(Model.IsActive ? "Aktif" : "Pasif")</strong></div>
+</section>
+
+<section class="panel">
+    <h2>Rezervasyon Geçmişi</h2>
+    <table>
+        <thead><tr><th>Misafir</th><th>Tarih</th><th>Durum</th><th>Tutar</th></tr></thead>
+        <tbody>
+        @foreach (var booking in Model.Bookings)
+        {
+            <tr>
+                <td>@booking.GuestName</td>
+                <td>@booking.CheckInDate.ToShortDateString() - @booking.CheckOutDate.ToShortDateString()</td>
+                <td>@booking.Status</td>
+                <td>@booking.TotalPrice.ToString("N0") TL</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>

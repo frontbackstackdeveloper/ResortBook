@@ -1,0 +1,91 @@
+@model IEnumerable<Booking>
+@{
+    ViewData["Title"] = "Rezervasyonlar";
+}
+
+<section class="page-header">
+    <div>
+        <h1>Rezervasyon Yönetimi</h1>
+        <p>Tarih çakışması kontrolü ile double-booking engellenir.</p>
+    </div>
+    <a class="btn primary" asp-action="Create">Rezervasyon Oluştur</a>
+</section>
+
+<section class="panel">
+    <table>
+        <thead>
+            <tr>
+                <th>Misafir</th>
+                <th>Oda</th>
+                <th>Giriş</th>
+                <th>Çıkış</th>
+                <th>Durum</th>
+                <th>Ödeme</th>
+                <th>Tutar</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.GuestName</td>
+                    <td>@item.Room?.RoomNumber</td>
+                    <td>@item.CheckInDate.ToShortDateString()</td>
+                    <td>@item.CheckOutDate.ToShortDateString()</td>
+
+                    <td>
+                        <span class="badge @item.Status.ToString().ToLower()">
+                            @GetStatusText(item.Status)
+                        </span>
+                    </td>
+
+                    <td>@GetPaymentStatusText(item.PaymentStatus)</td>
+
+                    <td>@item.TotalPrice.ToString("N0") TL</td>
+
+                    <td class="actions">
+                        <a asp-action="Details" asp-route-id="@item.Id">Detay</a>
+
+                        @if (item.Status == BookingStatus.Pending)
+                        {
+                            <form asp-action="Confirm" asp-route-id="@item.Id" method="post">
+                                <button class="link" type="submit">Onayla</button>
+                            </form>
+                        }
+
+                        @if (item.Status != BookingStatus.Cancelled)
+                        {
+                            <form asp-action="Cancel" asp-route-id="@item.Id" method="post">
+                                <button class="link danger" type="submit">İptal</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+@functions {
+    private string GetStatusText(BookingStatus status)
+    {
+        return status switch
+        {
+            BookingStatus.Pending => "Beklemede",
+            BookingStatus.Confirmed => "Onaylandı",
+            BookingStatus.Cancelled => "İptal Edildi",
+            _ => status.ToString()
+        };
+    }
+
+    private string GetPaymentStatusText(PaymentStatus paymentStatus)
+    {
+        return paymentStatus switch
+        {
+            PaymentStatus.Paid => "Ödendi",
+            PaymentStatus.Unpaid => "Ödenmedi",
+            _ => paymentStatus.ToString()
+        };
+    }
+}

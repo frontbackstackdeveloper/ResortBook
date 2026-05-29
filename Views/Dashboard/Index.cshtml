@@ -1,0 +1,71 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<section class="hero">
+    <div>
+        <h1>ResortBook Dashboard</h1>
+        <p>Oda, rezervasyon, gelir ve doluluk bilgileri tek ekranda takip edilir.</p>
+    </div>
+    <a class="btn primary" asp-controller="Bookings" asp-action="Create">Yeni Rezervasyon</a>
+</section>
+
+<section class="grid cards">
+    <div class="card"><span>Toplam Oda</span><strong>@Model.TotalRooms</strong></div>
+    <div class="card"><span>Aktif Oda</span><strong>@Model.ActiveRooms</strong></div>
+    <div class="card"><span>Toplam Rezervasyon</span><strong>@Model.TotalBookings</strong></div>
+    <div class="card"><span>Bekleyen</span><strong>@Model.PendingBookings</strong></div>
+    <div class="card"><span>Onaylanan</span><strong>@Model.ConfirmedBookings</strong></div>
+    <div class="card"><span>Aylık Gelir</span><strong>@Model.MonthlyRevenue.ToString("N0") TL</strong></div>
+</section>
+
+<section class="panel">
+    <div class="panel-header">
+        <h2>Son Rezervasyonlar</h2>
+        <a asp-controller="Bookings" asp-action="Index">Tümünü Gör</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Misafir</th>
+                <th>Oda</th>
+                <th>Tarih</th>
+                <th>Durum</th>
+                <th>Tutar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model.LatestBookings)
+            {
+                <tr>
+                    <td>@booking.GuestName</td>
+                    <td>@booking.Room?.RoomNumber</td>
+                    <td>@booking.CheckInDate.ToShortDateString() - @booking.CheckOutDate.ToShortDateString()</td>
+
+                    <td>
+                        <span class="badge @booking.Status.ToString().ToLower()">
+                            @GetStatusText(booking.Status)
+                        </span>
+                    </td>
+
+                    <td>@booking.TotalPrice.ToString("N0") TL</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+@functions {
+    private string GetStatusText(BookingStatus status)
+    {
+        return status switch
+        {
+            BookingStatus.Pending => "Beklemede",
+            BookingStatus.Confirmed => "Onaylandı",
+            BookingStatus.Cancelled => "İptal Edildi",
+            _ => status.ToString()
+        };
+    }
+}

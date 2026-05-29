@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ResortBook</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="brand-mark">RB</span>
+            <div>
+                <strong>ResortBook</strong>
+                <small>Reservation Management</small>
+            </div>
+        </div>
+        <nav class="nav">
+            <a asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+            <a asp-controller="Rooms" asp-action="Index">Odalar</a>
+            <a asp-controller="Bookings" asp-action="Index">Rezervasyonlar</a>
+            <a asp-controller="Reports" asp-action="Index">Raporlar</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert success">@TempData["Success"]</div>
+        }
+        @if (TempData["Warning"] != null)
+        {
+            <div class="alert warning">@TempData["Warning"]</div>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <span>ResortBook Proje Yönetimi Dönem Projesi</span>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

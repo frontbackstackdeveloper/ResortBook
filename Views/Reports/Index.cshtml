@@ -1,0 +1,33 @@
+@model ReportViewModel
+@{
+    ViewData["Title"] = "Raporlar";
+}
+
+<section class="page-header">
+    <div>
+        <h1>Raporlar</h1>
+        <p>Rezervasyon, gelir ve oda tipi dağılımı raporları.</p>
+    </div>
+</section>
+
+<section class="grid cards">
+    <div class="card"><span>Toplam Rezervasyon</span><strong>@Model.TotalBookings</strong></div>
+    <div class="card"><span>Bekleyen</span><strong>@Model.PendingBookings</strong></div>
+    <div class="card"><span>Onaylanan</span><strong>@Model.ConfirmedBookings</strong></div>
+    <div class="card"><span>İptal</span><strong>@Model.CancelledBookings</strong></div>
+    <div class="card"><span>Toplam Gelir</span><strong>@Model.TotalRevenue.ToString("N0") TL</strong></div>
+    <div class="card"><span>Doluluk Oranı</span><strong>%@Model.OccupancyRate</strong></div>
+</section>
+
+<section class="panel">
+    <h2>Oda Tipine Göre Rezervasyon</h2>
+    <table>
+        <thead><tr><th>Oda Tipi</th><th>Rezervasyon Sayısı</th></tr></thead>
+        <tbody>
+        @foreach (var row in Model.BookingsByRoomType)
+        {
+            <tr><td>@row.Key</td><td>@row.Value</td></tr>
+        }
+        </tbody>
+    </table>
+</section>

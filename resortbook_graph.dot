@@ -1,0 +1,36 @@
+digraph ResortBookArchitecture {
+    rankdir=LR;
+
+    node [shape=box, style="rounded,filled", fillcolor="#EAF2FF", color="#2563EB", fontname="Arial"];
+
+    User [label="Kullanici"];
+    Dashboard [label="DashboardController"];
+    Rooms [label="RoomsController"];
+    Bookings [label="BookingsController"];
+    Reports [label="ReportsController"];
+    BookingService [label="BookingService\nDouble-Booking Kontrolu"];
+    DbContext [label="AppDbContext\nEF Core"];
+    SQLite [label="SQLite Veritabani"];
+    Room [label="Room Model"];
+    Booking [label="Booking Model"];
+    Views [label="Razor Views"];
+
+    User -> Views;
+    Views -> Dashboard;
+    Views -> Rooms;
+    Views -> Bookings;
+    Views -> Reports;
+
+    Dashboard -> DbContext;
+    Rooms -> DbContext;
+    Reports -> DbContext;
+    Bookings -> BookingService;
+    BookingService -> DbContext;
+
+    DbContext -> Room;
+    DbContext -> Booking;
+    DbContext -> SQLite;
+
+    BookingService -> Booking [label="Tarih cakismasi"];
+    BookingService -> Room [label="Fiyat hesaplama"];
+}

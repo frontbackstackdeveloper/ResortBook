@@ -1,0 +1,22 @@
+@model Room
+<div asp-validation-summary="ModelOnly" class="validation"></div>
+<label asp-for="RoomNumber"></label>
+<input asp-for="RoomNumber" />
+<span asp-validation-for="RoomNumber" class="validation"></span>
+
+<label asp-for="RoomType"></label>
+<input asp-for="RoomType" />
+<span asp-validation-for="RoomType" class="validation"></span>
+
+<label asp-for="Capacity"></label>
+<input asp-for="Capacity" type="number" />
+<span asp-validation-for="Capacity" class="validation"></span>
+
+<label asp-for="PricePerNight"></label>
+<input asp-for="PricePerNight" type="number" step="0.01" />
+<span asp-validation-for="PricePerNight" class="validation"></span>
+
+<label asp-for="Description"></label>
+<textarea asp-for="Description" rows="3"></textarea>
+
+<label class="checkline"><input asp-for="IsActive" /> Aktif</label>

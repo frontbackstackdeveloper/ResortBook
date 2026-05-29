@@ -1,0 +1,43 @@
+@model BookingCreateViewModel
+@{
+    ViewData["Title"] = "Rezervasyon Oluştur";
+}
+
+<section class="form-page">
+    <h1>Yeni Rezervasyon</h1>
+    <p class="muted">Sistem, seçilen oda için tarih çakışması varsa rezervasyonu otomatik engeller.</p>
+    <form asp-action="Create" method="post" class="form-card">
+        <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+        <label asp-for="RoomId"></label>
+        <select asp-for="RoomId" asp-items="Model.Rooms"></select>
+        <span asp-validation-for="RoomId" class="validation"></span>
+
+        <label asp-for="GuestName"></label>
+        <input asp-for="GuestName" />
+        <span asp-validation-for="GuestName" class="validation"></span>
+
+        <label asp-for="GuestEmail"></label>
+        <input asp-for="GuestEmail" />
+        <span asp-validation-for="GuestEmail" class="validation"></span>
+
+        <label asp-for="GuestPhone"></label>
+        <input asp-for="GuestPhone" />
+
+        <label asp-for="CheckInDate"></label>
+        <input asp-for="CheckInDate" />
+        <span asp-validation-for="CheckInDate" class="validation"></span>
+
+        <label asp-for="CheckOutDate"></label>
+        <input asp-for="CheckOutDate" />
+        <span asp-validation-for="CheckOutDate" class="validation"></span>
+
+        <label asp-for="Notes"></label>
+        <textarea asp-for="Notes" rows="3"></textarea>
+
+        <div class="form-actions">
+            <button class="btn primary" type="submit">Rezervasyonu Oluştur</button>
+            <a class="btn" asp-action="Index">Geri</a>
+        </div>
+    </form>
+</section>
