@@ -1,37 +1,48 @@
-# ResortBook - Otel / Resort Rezervasyon Yönetim Sistemi
+﻿# ResortBook
 
-Bu proje Yazılım Proje Yönetimi dönem projesi için hazırlanmıştır. Proje, Freelancer üzerindeki resort booking ilanından alınan müşteri isterlerine göre ASP.NET Core MVC + SQLite + Entity Framework Core kullanılarak geliştirilir.
+ResortBook, Yazılım Proje Yönetimi dersi kapsamında geliştirilen bir otel ve resort rezervasyon yönetim sistemidir.
 
-## Ana Özellikler
+## Proje Amacı
 
-- Oda ekleme, listeleme, düzenleme ve pasif hale getirme
+Bu proje, Freelancer üzerinde yer alan resort booking ilanındaki temel müşteri isterleri dikkate alınarak geliştirilmiştir.
+
+## Kullanılan Teknolojiler
+
+- ASP.NET Core MVC
+- Entity Framework Core
+- SQLite
+- C#
+- Razor Views
+- Bootstrap
+- SonarCloud
+- Doxygen
+- Graphviz
+
+## Temel Özellikler
+
+- Dashboard ekranı
+- Oda yönetimi
 - Rezervasyon oluşturma
-- Giriş / çıkış tarihine göre oda müsaitlik kontrolü
+- Rezervasyon listeleme
+- Rezervasyon onaylama
+- Rezervasyon iptal etme
+- Ödeme durumu takibi
+- Raporlama ekranı
 - Double-booking engelleme algoritması
-- Rezervasyon onaylama / iptal etme
-- Dashboard ve raporlama ekranları
-- Ödeme ve e-posta bildirimi simülasyonu
+- Gelir hesaplama mantığı
 
-## Algoritma Mantığı
+## Double-Booking Kontrolü
 
-Aynı oda için tarih çakışması şu formülle kontrol edilir:
+Sistem, aynı oda için çakışan tarih aralıklarında ikinci rezervasyon oluşturulmasını engeller.
 
-```csharp
-existing.CheckInDate < newReservation.CheckOutDate &&
-newReservation.CheckInDate < existing.CheckOutDate
-```
+Bu kontrol sayesinde aynı oda aynı tarih aralığında iki farklı müşteriye atanamaz.
 
-Bu koşul doğruysa sistem aynı oda için ikinci rezervasyonu engeller.
+## Gelir Hesaplama
 
-## Çalıştırma
+Gelir hesaplamasında yalnızca Onaylandı ve Ödendi durumundaki rezervasyonlar dikkate alınır.
 
-```bash
-dotnet restore
-dotnet run
-```
+Beklemede veya ödenmemiş rezervasyonlar toplam gelire dahil edilmez.
 
-Uygulama açıldıktan sonra tarayıcıda verilen localhost adresine gidilir.
+## Proje Yönetimi Çıktıları
 
-## Teslim Notu
-
-Bu paket başlangıç kaynak kod paketidir. Sonraki aşamada kullanıcı el kitapçığı, FSM emek hesabı, SonarQube ekran çıktısı, Doxygen/Graphviz çıktıları ve sunum dosyası hazırlanacaktır.
+Projede task board, kullanıcı el kitapçığı, FSM emek hesabı, Doxygen çıktısı, Graphviz diyagramı ve SonarCloud kalite analizi hazırlanmıştır.
