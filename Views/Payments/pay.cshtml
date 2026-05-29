@@ -1,0 +1,59 @@
+﻿@model ResortBook.ViewModels.PaymentViewModel
+
+@{
+    ViewData["Title"] = "Demo Ödeme";
+}
+
+<section class="hero">
+    <div>
+        <h1>Demo Ödeme</h1>
+        <p>Bu ekran ödeme sürecini simüle eder. Kart bilgileri veritabanına kaydedilmez.</p>
+    </div>
+</section>
+
+<section class="card">
+    <h2>Rezervasyon Bilgileri</h2>
+
+    <p><strong>Misafir:</strong> @Model.GuestName</p>
+    <p><strong>Oda:</strong> @Model.RoomInfo</p>
+    <p><strong>Ödenecek Tutar:</strong> @Model.Amount.ToString("N0") TL</p>
+
+    <hr />
+
+    <form asp-action="Pay" method="post">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" asp-for="BookingId" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label asp-for="CardHolderName"></label>
+                <input asp-for="CardHolderName" class="form-control" />
+                <span asp-validation-for="CardHolderName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CardNumber"></label>
+                <input asp-for="CardNumber" class="form-control" placeholder="4242 4242 4242 4242" />
+                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ExpiryDate"></label>
+                <input asp-for="ExpiryDate" class="form-control" placeholder="12/30" />
+                <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cvv"></label>
+                <input asp-for="Cvv" class="form-control" placeholder="123" />
+                <span asp-validation-for="Cvv" class="text-danger"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn primary">Demo Ödemeyi Tamamla</button>
+        <a class="btn" asp-controller="Payments" asp-action="Index">Geri Dön</a>
+    </form>
+</section>

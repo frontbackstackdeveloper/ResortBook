@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ResortBook.Models.Booking>
+
+@{
+    ViewData["Title"] = "Ödemeler";
+}
+
+<section class="hero">
+    <div>
+        <h1>Ödemeler</h1>
+        <p>Ödenmemiş rezervasyonlar için demo güvenli ödeme işlemi yapılır.</p>
+    </div>
+</section>
+
+<section class="card">
+    <h2>Ödeme Bekleyen Rezervasyonlar</h2>
+
+    @if (!Model.Any())
+    {
+        <p>Ödeme bekleyen rezervasyon bulunmamaktadır.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Misafir</th>
+                    <th>Oda</th>
+                    <th>Tarih</th>
+                    <th>Tutar</th>
+                    <th>Durum</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model)
+                {
+                    <tr>
+                        <td>@booking.GuestName</td>
+                        <td>@booking.Room?.RoomNumber - @booking.Room?.RoomType</td>
+                        <td>@booking.CheckInDate.ToString("dd.MM.yyyy") - @booking.CheckOutDate.ToString("dd.MM.yyyy")</td>
+                        <td>@booking.TotalPrice.ToString("N0") TL</td>
+                        <td>Ödenmedi</td>
+                        <td>
+                            <a class="btn primary" asp-controller="Payments" asp-action="Pay" asp-route-id="@booking.Id">
+                                Ödeme Al
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

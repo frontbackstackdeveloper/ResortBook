@@ -1,0 +1,137 @@
+﻿@model ResortBook.ViewModels.AvailabilityViewModel
+
+@{
+    ViewData["Title"] = "Müsaitlik Takvimi";
+}
+
+<style>
+    .availability-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    .availability-table th,
+    .availability-table td {
+        border: 1px solid #e5e7eb;
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .availability-table th {
+        background: #f8fafc;
+        font-weight: 700;
+    }
+
+    .room-cell {
+        text-align: left !important;
+        font-weight: 700;
+        min-width: 180px;
+    }
+
+    .available {
+        background: #dcfce7;
+        color: #166534;
+        font-weight: 700;
+    }
+
+    .occupied {
+        background: #fee2e2;
+        color: #991b1b;
+        font-weight: 700;
+    }
+
+    .calendar-form {
+        display: flex;
+        gap: 12px;
+        align-items: end;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .calendar-form label {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .calendar-form input,
+    .calendar-form select {
+        padding: 9px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+    }
+</style>
+
+<section class="hero">
+    <div>
+        <h1>Müsaitlik Takvimi</h1>
+        <p>Odaların seçilen tarih aralığındaki doluluk ve müsaitlik durumu canlı rezervasyon verilerine göre gösterilir.</p>
+    </div>
+</section>
+
+<section class="card">
+    <form method="get" class="calendar-form">
+        <div>
+            <label>Başlangıç Tarihi</label>
+            <input type="date" name="startDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <div>
+            <label>Gün Sayısı</label>
+            <select name="days">
+                <option value="7">7 Gün</option>
+                <option value="14" selected>14 Gün</option>
+                <option value="31">31 Gün</option>
+            </select>
+        </div>
+
+        <button class="btn primary" type="submit">Takvimi Göster</button>
+    </form>
+
+    <p>
+        <strong>Gösterilen Aralık:</strong>
+        @Model.StartDate.ToString("dd.MM.yyyy") - @Model.EndDate.ToString("dd.MM.yyyy")
+    </p>
+
+    <div style="overflow-x:auto;">
+        <table class="availability-table">
+            <thead>
+                <tr>
+                    <th>Oda</th>
+                    @foreach (var date in Model.Dates)
+                    {
+                        <th>
+                            @date.ToString("dd.MM")<br />
+                            <small>@date.ToString("ddd")</small>
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var room in Model.Rooms)
+                {
+                    <tr>
+                        <td class="room-cell">
+                            @room.RoomNumber - @room.RoomType<br />
+                            <small>@room.PricePerNight.ToString("N0") TL/gece</small>
+                        </td>
+
+                        @foreach (var day in room.Days)
+                        {
+                            <td class="@(day.IsAvailable ? "available" : "occupied")">
+                                @day.StatusText
+                                @if (!day.IsAvailable)
+                                {
+                                    <br />
+                                    <small>@day.GuestName</small>
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

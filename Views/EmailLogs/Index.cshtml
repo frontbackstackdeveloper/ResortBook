@@ -1,0 +1,52 @@
+﻿@model IReadOnlyList<ResortBook.Services.EmailLogItem>
+
+@{
+    ViewData["Title"] = "E-Posta Kayıtları";
+}
+
+<section class="hero">
+    <div>
+        <h1>E-Posta Kayıtları</h1>
+        <p>Rezervasyon oluşturulduğunda misafir ve admin için otomatik e-posta bildirimi üretilir.</p>
+    </div>
+</section>
+
+<section class="card">
+    <h2>Otomatik Bildirim Logları</h2>
+
+    @if (!Model.Any())
+    {
+        <p>Henüz e-posta bildirimi üretilmedi. Yeni bir rezervasyon oluşturduğunda burada kayıt oluşacak.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>Alıcı Tipi</th>
+                    <th>E-posta</th>
+                    <th>Konu</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var log in Model)
+                {
+                    <tr>
+                        <td>@log.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@log.RecipientType</td>
+                        <td>@log.RecipientEmail</td>
+                        <td>@log.Subject</td>
+                        <td>@log.Status</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <small>@log.Body</small>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

@@ -15,10 +15,14 @@
                 <small>Reservation Management</small>
             </div>
         </div>
+
         <nav class="nav">
             <a asp-controller="Dashboard" asp-action="Index">Dashboard</a>
             <a asp-controller="Rooms" asp-action="Index">Odalar</a>
             <a asp-controller="Bookings" asp-action="Index">Rezervasyonlar</a>
+            <a asp-controller="Availability" asp-action="Index">Müsaitlik Takvimi</a>
+            <a asp-controller="Payments" asp-action="Index">Ödemeler</a>
+            <a asp-controller="EmailLogs" asp-action="Index">E-Posta Kayıtları</a>
             <a asp-controller="Reports" asp-action="Index">Raporlar</a>
         </nav>
     </header>
@@ -28,16 +32,19 @@
         {
             <div class="alert success">@TempData["Success"]</div>
         }
+
         @if (TempData["Warning"] != null)
         {
             <div class="alert warning">@TempData["Warning"]</div>
         }
+
         @RenderBody()
     </main>
 
     <footer class="footer">
         <span>ResortBook Proje Yönetimi Dönem Projesi</span>
     </footer>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

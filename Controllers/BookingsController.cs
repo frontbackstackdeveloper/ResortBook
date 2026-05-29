@@ -12,11 +12,16 @@ public class BookingsController : Controller
 {
     private readonly AppDbContext _db;
     private readonly IBookingService _bookingService;
+    private readonly IEmailLogService _emailLogService;
 
-    public BookingsController(AppDbContext db, IBookingService bookingService)
+    public BookingsController(
+        AppDbContext db,
+        IBookingService bookingService,
+        IEmailLogService emailLogService)
     {
         _db = db;
         _bookingService = bookingService;
+        _emailLogService = emailLogService;
     }
 
     public async Task<IActionResult> Index()
@@ -114,7 +119,9 @@ public class BookingsController : Controller
         _db.Bookings.Add(booking);
         await _db.SaveChangesAsync();
 
-        TempData["Success"] = "Rezervasyon oluşturuldu. E-posta bildirimi simüle edildi.";
+        _emailLogService.AddBookingCreatedLog(booking, room!.RoomNumber);
+
+        TempData["Success"] = "Rezervasyon oluşturuldu. Misafir ve admin için otomatik e-posta bildirimi üretildi.";
         return RedirectToAction(nameof(Index));
     }
 
